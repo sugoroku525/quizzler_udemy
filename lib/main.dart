@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'questions.dart';
+import 'quiz_brain.dart';
+
+QuizBrain quizBrain = QuizBrain();
 void main() => runApp(Quizzler());
 
 class Quizzler extends StatelessWidget {
@@ -31,11 +34,7 @@ class _QuizPageState extends State<QuizPage> {
 int i = 0;
 
 
-List<Question> questionBank = [
-  Question(q:'You can lead a cow down stairs but not up stairs.',a:false),
-  Question(q:'Approximately one quarter of human bones are in the feet.',a:true),
-  Question(q:'A slug\'s blood is green.',a:true)
-];
+
 
   @override
   Widget build(BuildContext context) {
@@ -49,7 +48,7 @@ List<Question> questionBank = [
             padding: EdgeInsets.all(10.0),
             child: Center(
               child: Text(
-                questionBank[i].questionText,
+                quizBrain.questionBank[i].questionText,
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 25.0,
@@ -73,7 +72,7 @@ List<Question> questionBank = [
                 ),
               ),
               onPressed: () {
-                bool correctAnswer = questionBank[i].questionAnswer;
+                bool correctAnswer = quizBrain.questionBank[i].questionAnswer;
                 if (correctAnswer ==true){
                   print('users get it right');
 
