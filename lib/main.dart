@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'questions.dart';
 import 'quiz_brain.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 
 QuizBrain quizBrain = QuizBrain();
 void main() => runApp(Quizzler());
@@ -31,8 +32,38 @@ class _QuizPageState extends State<QuizPage> {
 
   List<Icon> scorekeeper = [];
 
-int i = 0;
+  void checkAnswer (bool userPickedAnswer){
+    bool correctAnswer = quizBrain.getCorrectionAnswer();
 
+              setState(() {
+                if (quizBrain.checkNumber() ==true){
+
+                      Alert(
+      context: context,
+    
+      title: "Finished!",
+      desc: "You\'ve reached the end of the quiz",
+      
+    ).show();
+    quizBrain.reset();
+    scorekeeper = [];
+                }
+                else{
+                if (userPickedAnswer == correctAnswer){
+                  scorekeeper.add(Icon(Icons.check,color:Colors.green));
+
+                }
+                else{
+                scorekeeper.add(Icon(Icons.close,color:Colors.red));
+                }
+                    quizBrain.nextQuestion();
+                }
+              }
+                );
+              
+          
+                
+  }
 
 
 
@@ -48,7 +79,7 @@ int i = 0;
             padding: EdgeInsets.all(10.0),
             child: Center(
               child: Text(
-                quizBrain.questionBank[i].questionText,
+                quizBrain.getQuestionText(),
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 25.0,
@@ -72,23 +103,14 @@ int i = 0;
                 ),
               ),
               onPressed: () {
-                bool correctAnswer = quizBrain.questionBank[i].questionAnswer;
-                if (correctAnswer ==true){
-                  print('users get it right');
-
-                }
-                else{print('user get it wrong');}
-                setState(() {
-                  scorekeeper.add(Icon(Icons.check,color:Colors.green)
-                );
-                i+=1;
-                if (i ==3){
-                  i=0;
-                }
-
-                });
+                checkAnswer(true);
               
-              },
+              
+                },
+
+                
+              
+              
             ),
           ),
         ),
@@ -105,12 +127,8 @@ int i = 0;
                 ),
               ),
               onPressed: () {
-                setState(() {
-                  i+=1;
-                if (i==3){
-                  i=0;
-                }
-                });
+                  checkAnswer(false);
+                
                 
                 
               },
